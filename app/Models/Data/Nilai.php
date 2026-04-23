@@ -16,18 +16,18 @@ class Nilai extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $primaryKey = 'id_nilai';
-    protected $table = 'nilai_alternatif';
+    protected $table = 'nilai_siswa';
 
     protected $fillable = [
-        'id_alternatif',
+        'id_siswa',
         'id_kriteria',
         'nilai',
         'keterangan',
     ];
 
-    public function alternatif()
+    public function dataSiswa()
     {
-        return $this->belongsTo(Alternatif::class, 'id_alternatif');
+        return $this->belongsTo(DataSiswa::class, 'id_siswa');
     }
 
     public function kriteria()

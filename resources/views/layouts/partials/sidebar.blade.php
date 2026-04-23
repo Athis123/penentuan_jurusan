@@ -24,16 +24,16 @@
                 </a>
             </li>
 
-            <li class="{{ request()->routeIs('admin.data.alternatif.*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.data.alternatif.index') }}">
-                    <i class="fas fa-th-large""></i> <span>Alternatif</span>
+            <li class="{{ request()->routeIs('admin.data.siswa.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.data.siswa.index') }}">
+                    <i class="fas fa-th-large""></i> <span>Data Siswa</span>
                 </a>
             </li>
 
             <li class=" {{ request()->routeIs('admin.data.penilaian.*') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.data.penilaian.index') }}">
-                            <i class="fas fa-pen-nib"></i> <span>Penilaian Alternatif</span>
-                        </a>
+                <a class="nav-link" href="{{ route('admin.data.penilaian.index') }}">
+                    <i class="fas fa-pen-nib"></i> <span>Penilaian Alternatif</span>
+                </a>
             </li>
 
             <li class="{{ request()->routeIs('admin.data.perhitungan.index') ? 'active' : '' }}">
@@ -57,12 +57,12 @@
                 </ul>
             </li> --}}
             @role('admin')
-            <li class="menu-header">Management User</li>
-            <li class="{{ request()->routeIs('admin.personil.user.*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.personil.user.index') }}">
-                    <i class="fas fa-users"></i> <span>Pegawai</span>
-                </a>
-            </li>
+                <li class="menu-header">Management User</li>
+                <li class="{{ request()->routeIs('admin.personil.user.*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.personil.user.index') }}">
+                        <i class="fas fa-users"></i> <span>Pegawai</span>
+                    </a>
+                </li>
             @endrole
             {{-- <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Forms</span></a>

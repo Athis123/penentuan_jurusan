@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Data;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Data\Nilai;
-use App\Models\Data\Alternatif;
+use App\Models\Data\DataSiswa;
 use App\Models\Data\Kriteria;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -18,13 +18,13 @@ class NilaiController extends Controller
 
     public function index()
     {
-        $title = 'Data Penilaian Alternatif';
+        $title = 'Data Penilaian Siswa';
         $kriteria = Kriteria::orderBy('id_kriteria')->get();
-        $alternatif = Alternatif::with('penilaians')
-            ->orderByRaw("CAST(SUBSTRING(kode, 2) AS UNSIGNED) ASC")
+        $siswa = DataSiswa::with('penilaians')
+            ->orderBy('nama', 'asc')
             ->get();
 
-        return view('data.penilaian.index', compact('title', 'kriteria', 'alternatif'));
+        return view('data.penilaian.index', compact('title', 'kriteria', 'siswa'));
     }
 
 
@@ -33,13 +33,13 @@ class NilaiController extends Controller
         // dd($request->all());
         $data = $request->input('nilai');
         DB::transaction(function () use ($data) {
-            foreach ($data as $id_alternatif => $nilaiPerKriteria) {
+            foreach ($data as $id_siswa => $nilaiPerKriteria) {
                 foreach ($nilaiPerKriteria as $id_kriteria => $nilai) {
                     if ($nilai === null || $nilai === '') continue;
 
                     Nilai::updateOrCreate(
                         [
-                            'id_alternatif' => $id_alternatif,
+                            'id_siswa' => $id_siswa,
                             'id_kriteria' => $id_kriteria,
                         ],
                         [

@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->date('tanggal_tf')->nullable()->after('pembayaran');
+        Schema::create('jurusan', function (Blueprint $table) {
+            $table->id('id_jurusan');
+            $table->string('kode')->nullable();
+            $table->string('nama')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('order', function (Blueprint $table) {
-            $table->dropColumn('tanggal_tf');
-        });
+        Schema::dropIfExists('jurusan');
     }
 };

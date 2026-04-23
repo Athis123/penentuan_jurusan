@@ -4,25 +4,22 @@
 
 @section('content')
 
-@include('components.breadcrumbs', [
-    'title' => $title,
-    'breadcrumbs' => [
-        ['label' => 'Dashboard', 'url' => route('admin.dashboard.index')],
-        ['label' => 'Perhitungan MOORA']
-    ]
-])
+    @include('components.breadcrumbs', [
+        'title' => $title,
+        'breadcrumbs' => [
+            ['label' => 'Dashboard', 'url' => route('admin.dashboard.index')],
+            ['label' => 'Perhitungan MOORA']
+        ]
+    ])
 
-<div class="section-body">
-
-    @foreach ($perhitungan as $golongan => $data)
-
+    <div class="section-body">
         {{-- ===============================
             MATRKS NORMALISASI
         =============================== --}}
         <div class="card card-primary">
             <div class="card-header">
                 <h4>
-                    Golongan {{ ucwords(str_replace('_', ' ', $golongan)) }} – Matriks Normalisasi
+                    Matriks Normalisasi
                 </h4>
             </div>
 
@@ -30,7 +27,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Alternatif</th>
+                            <th>Nama Siswa</th>
                             @foreach ($kriterias as $krit)
                                 <th>{{ $krit->nama }}</th>
                             @endforeach
@@ -38,15 +35,12 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($data['alternatifs'] as $alt)
+                        @foreach ($data['siswas'] as $alt)
                             <tr>
                                 <td>{{ $alt->nama }}</td>
                                 @foreach ($kriterias as $krit)
                                     <td>
-                                        {{ number_format(
-                                            $data['normalisasi'][$alt->id_alternatif][$krit->id_kriteria] ?? 0,
-                                            4
-                                        ) }}
+                                        {{ number_format($data['normalisasi'][$alt->id_siswa][$krit->id_kriteria] ?? 0, 4) }}
                                     </td>
                                 @endforeach
                             </tr>
@@ -62,7 +56,7 @@
         <div class="card card-success">
             <div class="card-header">
                 <h4>
-                    Golongan {{ ucwords(str_replace('_', ' ', $golongan)) }} – Matriks Terbobot
+                    Matriks Terbobot
                 </h4>
             </div>
 
@@ -70,7 +64,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Alternatif</th>
+                            <th>Nama Siswa</th>
                             @foreach ($kriterias as $krit)
                                 <th>{{ $krit->nama }}</th>
                             @endforeach
@@ -78,15 +72,12 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($data['alternatifs'] as $alt)
+                        @foreach ($data['siswas'] as $alt)
                             <tr>
                                 <td>{{ $alt->nama }}</td>
                                 @foreach ($kriterias as $krit)
                                     <td>
-                                        {{ number_format(
-                                            $data['terbobot'][$alt->id_alternatif][$krit->id_kriteria] ?? 0,
-                                            4
-                                        ) }}
+                                        {{ number_format($data['terbobot'][$alt->id_siswa][$krit->id_kriteria] ?? 0, 4) }}
                                     </td>
                                 @endforeach
                             </tr>
@@ -97,13 +88,11 @@
         </div>
 
         {{-- ===============================
-            HASIL AKHIR (Yi & RANKING)
-        =============================== --}}
+    HASIL AKHIR
+=============================== --}}
         <div class="card card-danger">
             <div class="card-header">
-                <h4>
-                    Golongan {{ ucwords(str_replace('_', ' ', $golongan)) }} – Hasil Akhir
-                </h4>
+                <h4>Hasil Akhir</h4>
             </div>
 
             <div class="card-body table-responsive">
@@ -111,8 +100,9 @@
                     <thead>
                         <tr>
                             <th width="5%">Rank</th>
-                            <th>Alternatif</th>
-                            <th width="20%">Yi</th>
+                            <th>Nama Siswa</th>
+                            <th>Yi</th>
+                            <th>Rekomendasi Jurusan</th>
                         </tr>
                     </thead>
 
@@ -125,6 +115,11 @@
                                 <td class="text-right">
                                     {{ number_format($item['yi'], 4) }}
                                 </td>
+                                <td>
+                                    <span class="badge badge-primary">
+                                        {{ $item['jurusan'] }}
+                                    </span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -132,7 +127,5 @@
             </div>
         </div>
 
-    @endforeach
-
-</div>
+    </div>
 @endsection

@@ -7,7 +7,7 @@
         'title' => $title,
         'breadcrumbs' => [
             ['label' => 'Dashboard', 'url' => route('admin.dashboard.index')],
-            ['label' => 'Data Penilaian Alternatif']
+            ['label' => 'Data Penilaian Siswa']
         ]
     ])
 
@@ -19,14 +19,14 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Alternatif</th>
+                                    <th>Nama Siswa</th>
                                     @foreach ($kriteria as $k)
                                         <th>{{ $k->nama }}</th>
                                     @endforeach
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($alternatif as $alt)
+                                @foreach ($siswa as $alt)
                                     <tr>
                                         <td>{{ $alt->nama }}</td>
                                         @foreach ($kriteria as $k)
@@ -35,20 +35,16 @@
                                             @endphp
                                             <td>
                                                 @php
-                                                    $isTahun = strtolower($k->nama) === 'tahun';
-                                                    $val = $nilai ? $nilai->nilai : '';
-                                                    if (!$isTahun && $val !== '') {
-                                                        $val = number_format($val, 0, ',', '.');
-                                                    }
+                                                    $nilai = $alt->penilaians->firstWhere(
+                                                        'id_kriteria',
+                                                        $k->id_kriteria
+                                                    );
                                                 @endphp
-                                                <input
-                                                    type="text"
-                                                    class="form-control input-nilai"
-                                                    name="nilai[{{ $alt->id_alternatif }}][{{ $k->id_kriteria }}]"
-                                                    value="{{ $val }}"
-                                                    placeholder="Isi nilai"
-                                                    data-kriteria="{{ strtolower($k->nama) }}"
-                                                >
+
+                                                <input type="number" class="form-control input-nilai"
+                                                    name="nilai[{{ $alt->id_siswa }}][{{ $k->id_kriteria }}]"
+                                                    value="{{ $nilai ? $nilai->nilai : '' }}" placeholder="Isi nilai"
+                                                    min="0">
                                             </td>
                                         @endforeach
                                     </tr>
@@ -65,58 +61,32 @@
 @endsection
 
 @push('scripts')
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-    // Format angka menjadi ribuan
-    function formatNumber(n) {
-        return n.replace(/\D/g, '')
-                .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
+        // Hanya boleh angka
+        $('.input-nilai').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
 
-    // Saat user input nilai
-    $('.input-nilai').on('input', function () {
-        const kriteria = $(this).data('kriteria').toLowerCase();
-        let val = $(this).val();
-
-        if (kriteria !== 'tahun') {
-            val = formatNumber(val);
-            $(this).val(val);
-        }
-    });
-
-    // Prevent input selain angka
-    $('.input-nilai').on('keypress', function (e) {
-        if (e.which < 48 || e.which > 57) {
+        $('#form-penilaian').on('submit', function(e) {
             e.preventDefault();
-        }
-    });
 
-    $('#form-penilaian').on('submit', function(e) {
-        e.preventDefault();
-
-        $(this).find('.input-nilai').each(function () {
-            const kriteria = $(this).data('kriteria').toLowerCase();
-            if (kriteria !== 'tahun') {
-                $(this).val($(this).val().replace(/\./g, '')); // hapus titik
-            }
+            $.ajax({
+                url: "{{ route('admin.data.penilaian.bulkstore') }}",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(response) {
+                    Swal.fire('Berhasil!', response.message, 'success');
+                },
+                error: function(xhr) {
+                    Swal.fire('Gagal!', 'Ada kesalahan saat menyimpan data.', 'error');
+                }
+            });
         });
-
-        $.ajax({
-            url: "{{ route('admin.data.penilaian.bulkstore') }}",
-            method: "POST",
-            data: $(this).serialize(),
-            success: function(response) {
-                Swal.fire('Berhasil!', response.message, 'success');
-            },
-            error: function(xhr) {
-                Swal.fire('Gagal!', 'Ada kesalahan saat menyimpan data.', 'error');
-            }
-        });
-    });
-</script>
+    </script>
 @endpush

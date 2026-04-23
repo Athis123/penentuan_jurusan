@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Data\OrderController;
 use App\Http\Controllers\Personil\UserController;
 
 /*
@@ -46,13 +45,13 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator', 'as' => 'adm
         Route::put('kriteria/{id}', 'KriteriaController@update')->name('kriteria.update');
         Route::delete('/kriteria/{id}', 'KriteriaController@destroy')->name('kriteria.destroy');
 
-        // Alternatif
-        Route::get('alternatif', 'AlternatifController@index')->name('alternatif.index');
-        Route::get('alternatif/create', 'AlternatifController@create')->name('alternatif.create');
-        Route::post('alternatif', 'AlternatifController@store')->name('alternatif.store');
-        Route::get('alternatif/{id}/edit', 'AlternatifController@edit')->name('alternatif.edit');
-        Route::put('alternatif/{id}', 'AlternatifController@update')->name('alternatif.update');
-        Route::delete('/alternatif/{id}', 'AlternatifController@destroy')->name('alternatif.destroy');
+        // Data Siswa
+        Route::get('siswa', 'DataSiswaController@index')->name('siswa.index');
+        Route::get('siswa/create', 'DataSiswaController@create')->name('siswa.create');
+        Route::post('siswa', 'DataSiswaController@store')->name('siswa.store');
+        Route::get('siswa/{id}/edit', 'DataSiswaController@edit')->name('siswa.edit');
+        Route::put('siswa/{id}', 'DataSiswaController@update')->name('siswa.update');
+        Route::delete('/siswa/{id}', 'DataSiswaController@destroy')->name('siswa.destroy');
 
         // Penilaian
         Route::get('penilaian', 'NilaiController@index')->name('penilaian.index');

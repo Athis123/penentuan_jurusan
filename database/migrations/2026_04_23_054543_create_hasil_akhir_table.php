@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nilai_siswa', function (Blueprint $table) {
-            $table->id('id_nilai');
+        Schema::create('hasil_akhir', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('id_siswa');
             $table->unsignedBigInteger('id_kriteria');
-            $table->bigInteger('nilai')->default(0);
-            $table->string('keterangan')->nullable();
+            $table->bigInteger('skor')->default(0);
+            $table->bigInteger('ranking')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             // Foreign key constraints
             $table->foreign('id_siswa')->references('id_siswa')->on('data_siswa')->onDelete('cascade');
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai_siswa');
+        Schema::dropIfExists('hasil_akhir');
     }
 };
