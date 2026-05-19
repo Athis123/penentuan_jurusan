@@ -18,9 +18,7 @@ class PerhitunganController extends Controller
             ->orderBy('nama')
             ->get();
 
-        /* =====================
-         * 1. MATRKS KEPUTUSAN
-         * ===================== */
+        // 1. MATRKS KEPUTUSAN
         $matriks = [];
 
         foreach ($siswas as $siswa) {
@@ -33,9 +31,7 @@ class PerhitunganController extends Controller
             }
         }
 
-        /* =====================
-         * 2. PEMBAGI
-         * ===================== */
+        // 2. PEMBAGI
         $pembagi = [];
 
         foreach ($kriterias as $krit) {
@@ -49,9 +45,7 @@ class PerhitunganController extends Controller
             $pembagi[$krit->id_kriteria] = sqrt($total);
         }
 
-        /* =====================
-         * 3. NORMALISASI
-         * ===================== */
+        // 3. NORMALISASI
         $normalisasi = [];
 
         foreach ($siswas as $siswa) {
@@ -60,13 +54,11 @@ class PerhitunganController extends Controller
                 $pemb = $pembagi[$krit->id_kriteria];
 
                 $normalisasi[$siswa->id_siswa][$krit->id_kriteria] =
-                    $pemb != 0 ? $nilai / $pemb : 0;
+                    $pemb != 0 ? ($nilai / $pemb) : 0;
             }
         }
 
-        /* =====================
-         * 4. TERBOBOT
-         * ===================== */
+        // 4. TERBOBOT
         $terbobot = [];
 
         foreach ($siswas as $siswa) {
@@ -76,18 +68,22 @@ class PerhitunganController extends Controller
             }
         }
 
-        /* =====================
-         * 5. NILAI Yi + JURUSAN
-         * ===================== */
+        // Taruh SEBELUM foreach siswa
+        $idMtk  = $kriterias->firstWhere('kode', 'C1')->id_kriteria ?? 1;
+        $idIpa  = $kriterias->firstWhere('kode', 'C2')->id_kriteria ?? 2;
+        $idSeni = $kriterias->firstWhere('kode', 'C3')->id_kriteria ?? 3;
+        $idTik  = $kriterias->firstWhere('kode', 'C4')->id_kriteria ?? 4;
+        $idIndo = $kriterias->firstWhere('kode', 'C5')->id_kriteria ?? 5;
+
+        // 5. NILAI Yi + JURUSAN
         $hasil = [];
 
         foreach ($siswas as $siswa) {
             $benefit = 0;
-            $cost = 0;
+            $cost    = 0;
 
             foreach ($kriterias as $krit) {
                 $nilai = $terbobot[$siswa->id_siswa][$krit->id_kriteria];
-
                 if ($krit->tipe == 'benefit') {
                     $benefit += $nilai;
                 } else {
@@ -97,23 +93,43 @@ class PerhitunganController extends Controller
 
             $yi = $benefit - $cost;
 
-            /* =====================
-             * PENENTUAN JURUSAN
-             * ===================== */
-            $jurusan = $this->tentukanJurusan($yi);
+            // Ambil nilai asli per kriteria
+            $nilaiMtk  = $matriks[$siswa->id_siswa][$idMtk]  ?? 0;
+            $nilaiIpa  = $matriks[$siswa->id_siswa][$idIpa]   ?? 0;
+            $nilaiSeni = $matriks[$siswa->id_siswa][$idSeni]  ?? 0;
+            $nilaiTik  = $matriks[$siswa->id_siswa][$idTik]   ?? 0;
+            $nilaiIndo = $matriks[$siswa->id_siswa][$idIndo]  ?? 0;
+
+            // Skor per jurusan
+            $skorTKJ = ($nilaiMtk * 0.4)  + ($nilaiTik  * 0.6);
+            $skorDKV = ($nilaiSeni * 0.5) + ($nilaiTik  * 0.3) + ($nilaiIndo * 0.2);
+            $skorTG  = ($nilaiSeni * 0.6) + ($nilaiIpa  * 0.2) + ($nilaiIndo * 0.2);
+
+            $skorMax = max($skorTKJ, $skorDKV, $skorTG);
+
+            if ($skorMax == $skorTKJ) {
+                $jurusan = 'Teknik Komputer Jaringan (TKJ)';
+            } elseif ($skorMax == $skorDKV) {
+                $jurusan = 'Desain Komunikasi Visual (DKV)';
+            } else {
+                $jurusan = 'Teknik Grafika (TG)';
+            }
 
             $hasil[] = [
                 'id_siswa' => $siswa->id_siswa,
                 'nama'     => $siswa->nama,
-                'yi'       => round($yi, 4),
-                'jurusan'  => $jurusan
+                'yi'       => $yi,
+                'jurusan'  => $jurusan,
             ];
         }
 
-        // Ranking
         usort($hasil, fn($a, $b) => $b['yi'] <=> $a['yi']);
 
-        // Bungkus data biar rapi di view
+        foreach ($hasil as &$item) {
+            $item['yi'] = round($item['yi'], 4);
+        }
+        unset($item);
+
         $data = [
             'siswas'       => $siswas,
             'matriks'      => $matriks,
@@ -127,19 +143,5 @@ class PerhitunganController extends Controller
             'kriterias',
             'data'
         ));
-    }
-
-    /* =====================
-     * FUNCTION JURUSAN
-     * ===================== */
-    private function tentukanJurusan($yi)
-    {
-        if ($yi >= 0.6) {
-            return 'Teknik Komputer Jaringan (TKJ)';
-        } elseif ($yi >= 0.3) {
-            return 'Desain Komunikasi Visual (DKV)';
-        } else {
-            return 'Teknik Grafika (TG)';
-        }
     }
 }

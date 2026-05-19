@@ -6,7 +6,7 @@
             {{-- <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
                         class="fas fa-search"></i></a></li> --}}
         </ul>
-        <h4 class="text-white mb-0 ml-2 d-none d-sm-block">PEMILIHAN UNIT MOBIL BEKAS UNGGULAN</h4>
+        <h4 class="text-white mb-0 ml-2 d-none d-sm-block">PENENTUAN JURUSAN BAGI SISWA MENGGUNAKAN METODE MOORA</h4>
     </form>
     <ul class="navbar-nav navbar-right">
         {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"

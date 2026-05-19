@@ -6,144 +6,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'AINA MOBILINDO') }}</title>
+    <title>{{ config('app.name', 'SPK MOORA SMK GRAFIKA') }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* === PALET WARNA BIRU BARU === */
         :root {
-            --primary: #667eea;
-            /* Warna biru utama */
-            --primary-light: #899bff;
-            --primary-dark: #5a67d8;
-            --secondary: #a3bffa;
-            --accent: #dbeafe;
-            --light: #f4f5f7;
-            --dark: #2d3748;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text: #1a202c;
-            --text-light: #4a5568;
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #60a5fa;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.12);
         }
-
-        .dark-mode {
-            --primary: #899bff;
-            --primary-light: #a3bffa;
-            --primary-dark: #667eea;
-            --secondary: #4a5568;
-            --accent: #2d3748;
-            --light: #1a202c;
-            --dark: #e2e8f0;
-            --card-bg: rgba(26, 32, 44, 0.95);
-            --text: #e2e8f0;
-            --text-light: #a0aec0;
-        }
-
-        /* ============================== */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
             min-height: 100vh;
-            font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82),
+                    rgba(37, 99, 235, 0.85)),
+                url('{{ asset('logo/bg-sekolah.jpg') }}');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
             width: 100%;
+            max-width: 1250px;
         }
 
         .auth-container {
             display: flex;
-            background: var(--card-bg);
-            border-radius: 24px;
+            min-height: 720px;
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            min-height: 650px;
+            backdrop-filter: blur(18px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
-        /* Banner kiri HANYA menggunakan gradien biru, sesuai permintaan. */
+        /* =======================
+           LEFT SIDE
+        ======================= */
+
         .auth-banner {
             flex: 1;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            padding: 70px 55px;
             color: white;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .auth-banner::before {
             content: "";
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            top: -100px;
-            right: -100px;
+            top: -120px;
+            left: -120px;
         }
 
         .auth-banner::after {
             content: "";
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.07);
-            bottom: -80px;
-            left: -80px;
+            bottom: -100px;
+            right: -80px;
         }
 
-        .logo {
-            margin-bottom: 30px;
-            z-index: 1;
+        .logo-area {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 35px;
         }
 
-        .logo h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .banner-text {
-            max-width: 450px;
-            z-index: 1;
-        }
-
-        .banner-text h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
+        .logo-area img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
             margin-bottom: 20px;
-            line-height: 1.2;
+            background: white;
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
-        .banner-text p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            opacity: 0.9;
+        .logo-area h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 15px;
         }
+
+        .logo-area p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 520px;
+        }
+
+        .feature-box {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        /* =======================
+           RIGHT SIDE
+        ======================= */
 
         .auth-content {
-            flex: 1;
-            padding: 60px 50px;
+            width: 480px;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 60px 45px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -157,25 +181,26 @@
         .auth-header h2 {
             font-size: 2rem;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--dark);
             margin-bottom: 10px;
         }
 
         .auth-header p {
             color: var(--text-light);
-            font-size: 1.1rem;
+            font-size: 0.98rem;
+            line-height: 1.7;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text);
-            font-size: 0.95rem;
         }
 
         .input-with-icon {
@@ -184,163 +209,216 @@
 
         .input-icon {
             position: absolute;
-            left: 15px;
             top: 50%;
+            left: 18px;
             transform: translateY(-50%);
-            color: var(--primary);
-            z-index: 1;
+            color: #94a3b8;
+            font-size: 1rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 15px 20px 15px 50px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            background: white;
-            transition: all 0.3s;
+            height: 56px;
+            border-radius: 16px;
+            border: 1px solid #dbeafe;
+            background: #f8fafc;
+            padding: 0 18px 0 50px;
+            font-size: 0.98rem;
+            font-family: inherit;
+            transition: 0.3s ease;
             color: var(--text);
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
 
         .remember-forgot {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
+            margin-bottom: 30px;
+            font-size: 0.92rem;
         }
 
         .remember-me {
             display: flex;
             align-items: center;
+            gap: 8px;
         }
 
         .remember-me input {
-            margin-right: 8px;
             accent-color: var(--primary);
-        }
-
-        .remember-me label {
-            margin-bottom: 0;
         }
 
         .forgot-password {
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s;
         }
 
         .forgot-password:hover {
-            color: var(--primary-dark);
             text-decoration: underline;
         }
 
         .btn {
-            display: block;
             width: 100%;
-            padding: 16px;
+            height: 58px;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 16px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
+            transition: all 0.3s ease;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg,
+                    var(--primary),
+                    var(--secondary));
             color: white;
-            box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            box-shadow: 0 6px 8px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(37, 99, 235, 0.35);
         }
 
         .auth-footer {
+            margin-top: 30px;
             text-align: center;
-            margin-top: 25px;
             color: var(--text-light);
-            font-size: 1rem;
-        }
-
-        .auth-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .auth-footer a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-
-        @media (max-width: 900px) {
-            .auth-container {
-                flex-direction: column;
-            }
-
-            .auth-banner {
-                padding: 40px 20px;
-            }
-
-            .logo h1 {
-                font-size: 2rem;
-            }
-
-            .banner-text h2 {
-                font-size: 1.8rem;
-            }
-
-            .auth-content {
-                padding: 40px 30px;
-            }
+            font-size: 0.92rem;
+            line-height: 1.7;
         }
 
         .input-error-message {
             color: #ef4444;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* =======================
+           RESPONSIVE
+        ======================= */
+
+        @media (max-width: 992px) {
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .auth-content {
+                width: 100%;
+            }
+
+            .auth-banner {
+                padding: 50px 30px;
+            }
+
+            .feature-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-content {
+                padding: 40px 25px;
+            }
+
+            .logo-area h1 {
+                font-size: 1.8rem;
+            }
+
+            .auth-header h2 {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
         <div class="auth-container">
+
+            <!-- LEFT -->
             <div class="auth-banner">
-                <div class="logo">
-                    <h1>AINA MOBILINDO</h1>
+
+                <div class="logo-area">
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
+
+                    <h1>
+                        Sistem Pendukung Keputusan Penentuan Jurusan Siswa
+                    </h1>
+
+                    <p>
+                        Sistem berbasis web menggunakan metode MOORA untuk membantu
+                        menentukan jurusan terbaik bagi siswa SMK secara cepat,
+                        objektif, dan akurat di SMK Grafika Yayasan Lektur.
+                    </p>
                 </div>
-                <div class="banner-text">
-                    <p>Sistem ini menggunakan Metode MOORA untuk merangking alternatif mobil dengan cara menyeimbangkan
-                        total kriteria keuntungan (manfaat) dan kriteria biaya (beban) guna menghasilkan keputusan yang
-                        paling optimal.</p>
+
+                <div class="feature-box">
+
+                    <div class="feature-item">
+                        <h3>📊 Metode MOORA</h3>
+                        <p>
+                            Perhitungan keputusan menggunakan metode yang
+                            akurat dan objektif.
+                        </p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>🎯 Penentuan Jurusan</h3>
+                        <p>
+                            Membantu siswa mendapatkan jurusan sesuai
+                            kemampuan dan minat.
+                        </p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>⚡ Sistem Modern</h3>
+                        <p>
+                            Tampilan modern, responsif, dan mudah digunakan
+                            pada berbagai perangkat.
+                        </p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>🏫 SMK Grafika</h3>
+                        <p>
+                            Dikembangkan untuk mendukung proses seleksi
+                            jurusan di sekolah.
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
+            <!-- RIGHT -->
             <div class="auth-content">
+
                 <div class="auth-header">
-                    <h2>Masuk ke Akun Anda</h2>
-                    <p>Gunakan username dan password Anda.</p>
+                    <h2>Login Sistem</h2>
                 </div>
 
                 {{ $slot }}
 
+                <div class="auth-footer">
+                    © {{ date('Y') }}
+                    SMK Grafika Yayasan Lektur <br>
+                    Sistem Pendukung Keputusan Metode MOORA
+                </div>
+
             </div>
+
         </div>
     </div>
+
 </body>
 
 </html>

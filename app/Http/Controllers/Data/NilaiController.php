@@ -21,7 +21,7 @@ class NilaiController extends Controller
         $title = 'Data Penilaian Siswa';
         $kriteria = Kriteria::orderBy('id_kriteria')->get();
         $siswa = DataSiswa::with('penilaians')
-            ->orderBy('nama', 'asc')
+            ->orderBy('id_siswa')
             ->get();
 
         return view('data.penilaian.index', compact('title', 'kriteria', 'siswa'));
