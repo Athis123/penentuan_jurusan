@@ -42,11 +42,11 @@
                 </a>
             </li>
 
-            <li class="{{ request()->routeIs('admin.data.perhitungan.result') ? 'active' : '' }}">
+            {{-- <li class="{{ request()->routeIs('admin.data.perhitungan.result') ? 'active' : '' }}">
                 <a class=" nav-link" href="{{ route('admin.data.perhitungan.result') }}">
                     <i class="fas fa-table"></i> <span>Hasil Perhitungan</span>
                 </a>
-            </li>
+            </li> --}}
             {{-- <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Layout</span></a>

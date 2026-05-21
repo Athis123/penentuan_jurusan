@@ -61,11 +61,8 @@ Route::group(['middleware' => ['auth'],'prefix' => 'administrator', 'as' => 'adm
         // Perhitungan
         Route::get('perhitungan', 'PerhitunganController@index')->name('perhitungan.index');
 
-        // hasil perhitungan
-        Route::get('hasil_perhitungan', 'HasilPerhitunganController@index')->name('perhitungan.result');
-
         // exportpdf
-        Route::get('exportpdf', 'HasilPerhitunganController@exportPdf')->name('perhitungan.pdf');
+        Route::get('exportpdf', 'PerhitunganController@exportPdf')->name('perhitungan.pdf');
     });
 
         // Data Master

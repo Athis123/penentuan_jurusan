@@ -29,12 +29,12 @@ class HasilPerhitunganController extends Controller
         return view('data.perhitungan.result', compact('title', 'data'));
     }
 
-    public function exportPdf()
-    {
-        $data = $this->mooraService->hitungMoora();
-        $pdf = Pdf::loadView('data.perhitungan.pdf', compact('data'));
-        return $pdf->download('Hasil_Perhitungan.pdf');
-    }
+    // public function exportPdf()
+    // {
+    //     $data = $this->mooraService->hitungMoora();
+    //     $pdf = Pdf::loadView('data.perhitungan.pdf', compact('data'));
+    //     return $pdf->download('Hasil_Perhitungan.pdf');
+    // }
 
     /**
      * Show the form for creating a new resource.

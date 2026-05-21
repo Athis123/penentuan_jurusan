@@ -42,6 +42,6 @@ cd penentuan_jurusan
 -   php artisan migrate --seed
 -   php artisan serve
 
-| Role  | NIP    | Password |
-| ----- | ------ | -------- |
-| Admin | 123456 | admin123 |
+| Role  | USERNAME    | Password |
+| ----- | ------      | -------- |
+| Admin | admin       | password |
